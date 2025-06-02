@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TIMEKEEPER</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%233B82F6'/%3E%3Cpath d='M50 20 V50 H75 M50 50 L35 65' stroke='white' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='50' cy='50' r='40' stroke='white' stroke-width='8' fill='none'/%3E%3C/svg%3E">
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/"
+  }
+}
+</script>
+  <style>
+    :root {
+      /* Default Light Theme Variables */
+      --color-bg-primary: #f1f5f9; /* slate-100 */
+      --color-text-primary: #0f172a; /* slate-900 */
+      --color-bg-secondary: #ffffff; /* white */
+      --color-text-secondary: #334155; /* slate-700 */
+      --color-text-muted: #64748b; /* slate-500 */
+      --color-border-primary: #e2e8f0; /* slate-200 */
+      --color-border-secondary: #cbd5e1; /* slate-300 */
+      --color-accent-primary: #3b82f6; /* blue-600 */
+      --color-accent-primary-hover: #2563eb; /* blue-700 */
+      --color-accent-text-primary: #ffffff; /* white */
+
+      --color-scrollbar-thumb: #cbd5e1; /* slate-300 */
+      --color-scrollbar-thumb-hover: #94a3b8; /* slate-400 */
+    }
+
+    .theme-default-dark {
+      --color-bg-primary: #0f172a; /* slate-900 */
+      --color-text-primary: #f1f5f9; /* slate-100 */
+      --color-bg-secondary: #1e293b; /* slate-800 */
+      --color-text-secondary: #cbd5e1; /* slate-300 */
+      --color-text-muted: #94a3b8; /* slate-400 */
+      --color-border-primary: #334155; /* slate-700 */
+      --color-border-secondary: #475569; /* slate-600 */
+      --color-accent-primary: #60a5fa; /* blue-400 */
+      --color-accent-primary-hover: #3b82f6; /* blue-500 */
+      --color-accent-text-primary: #0f172a; /* slate-900 */
+      
+      --color-scrollbar-thumb: #475569; /* slate-600 */
+      --color-scrollbar-thumb-hover: #64748b; /* slate-500 */
+    }
+
+    .theme-batman-knight {
+      --color-bg-primary: #1A1A1A; /* Very Dark Grey/Almost Black */
+      --color-text-primary: #FEEA3A; /* Bright Yellow */
+      --color-bg-secondary: #2C2C2C; /* Dark Grey */
+      --color-text-secondary: #A0A0A0; /* Lighter Grey */
+      --color-text-muted: #777777; /* Medium Grey */
+      --color-border-primary: #4A4A4A; /* Dark Grey/Dark Yellow */
+      --color-border-secondary: #5A5A5A; /* Slightly Lighter Grey */
+      --color-accent-primary: #FEEA3A; /* Bright Yellow */
+      --color-accent-primary-hover: #E0C000; /* Darker Yellow */
+      --color-accent-text-primary: #1A1A1A; /* Black/Very Dark Grey for text on yellow */
+      
+      --color-scrollbar-thumb: #4A4A4A;
+      --color-scrollbar-thumb-hover: #6A6A6A;
+    }
+
+    .theme-ironman-armor {
+      --color-bg-primary: #7D0000; /* Dark Metallic Red */
+      --color-text-primary: #FFD700; /* Gold/Bright Yellow */
+      --color-bg-secondary: #2A2A2A; /* Very Dark Grey (alternative: #8B0000 for lighter red) */
+      --color-text-secondary: #FFF8DC; /* Light Gold/Off-white */
+      --color-text-muted: #B08D57; /* Muted Gold */
+      --color-border-primary: #B8860B; /* Dark Gold */
+      --color-border-secondary: #DAA520; /* Lighter Gold */
+      --color-accent-primary: #FFD700; /* Bright Gold/Yellow */
+      --color-accent-primary-hover: #EAAA00; /* Darker Gold */
+      --color-accent-text-primary: #7D0000; /* Dark Red for text on gold */
+      
+      --color-scrollbar-thumb: #B8860B;
+      --color-scrollbar-thumb-hover: #DAA520;
+    }
+
+    .theme-agent-secret {
+      --color-bg-primary: #1F1F1F; /* Very Dark Sophisticated Grey */
+      --color-text-primary: #E0E0E0; /* Crisp Off-White */
+      --color-bg-secondary: #2D2D2D; /* Slightly Lighter Dark Grey */
+      --color-text-secondary: #B0B0B0; /* Lighter Grey */
+      --color-text-muted: #888888; /* Medium Grey */
+      --color-border-primary: #3C3C3C; /* Subtle Darker Grey Border */
+      --color-border-secondary: #4A4A4A; /* Subtle Lighter Grey Border */
+      --color-accent-primary: #B89F5D; /* Muted Gold */
+      --color-accent-primary-hover: #D4B77A; /* Brighter Gold */
+      --color-accent-text-primary: #1F1F1F; /* Very Dark Grey text on Gold */
+
+      --color-scrollbar-thumb: #4A4A4A;
+      --color-scrollbar-thumb-hover: #6A6A6A;
+    }
+
+
+    html {
+      /* color-scheme: light dark; removed, themes will handle this */
+    }
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    /* @media (prefers-color-scheme: dark) { ... } removed */
+    
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-scrollbar-thumb);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--color-scrollbar-thumb-hover);
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    /* Update Tailwind specific dark mode classes to use CSS variables */
+    .dark\\:bg-slate-900 { background-color: var(--color-bg-primary); }
+    .dark\\:text-slate-100 { color: var(--color-text-primary); }
+    .dark\\:bg-slate-800 { background-color: var(--color-bg-secondary); }
+    /* Add more overrides as needed for other Tailwind dark mode classes */
+
+  </style>
+  <script>
+    function gapiLoaded() {
+      window.dispatchEvent(new CustomEvent('gapiLoaded'));
+    }
+  </script>
+  <script async defer src="https://apis.google.com/js/api.js?onload=gapiLoaded"></script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
